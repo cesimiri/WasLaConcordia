@@ -2,6 +2,7 @@
 using LaConcordia;
 using LaConcordia.Auth;
 using LaConcordia.Helpers;
+using LaConcordia.Interface;
 using LaConcordia.Repository;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
@@ -34,6 +35,9 @@ Console.WriteLine("🔧 DESARROLLO - API: http://localhost:5191/");
 #endif
 
 //builder.Services.AddTelerikBlazor();
+builder.Services.AddScoped<IEmpresa, EmpresaRepository>();
+
+
 
 configureservices(builder.Services);
 

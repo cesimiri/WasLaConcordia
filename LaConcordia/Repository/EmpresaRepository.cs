@@ -59,5 +59,28 @@ namespace LaConcordia.Repository
                 throw new Exception($"Error al eliminar Departamento: {errorContent}");
             }
         }
+        //paginado
+
+        public async Task<PagedResult<EmpresaDTO>> GetEmpresasPaginados(int pagina, int pageSize, string? filtro = null, string? estado = null)
+        {
+            var url = $"api/Empresa/GetEmpresasPaginados?pagina={pagina}&pageSize={pageSize}";
+
+            if (!string.IsNullOrEmpty(filtro))
+                url += $"&razonsocial={Uri.EscapeDataString(filtro)}"; // usa "razonsocial" si ese es el filtro que manejas
+
+            if (!string.IsNullOrEmpty(estado))
+                url += $"&estado={Uri.EscapeDataString(estado)}";
+
+            try
+            {
+                var result = await _httpClient.GetFromJsonAsync<PagedResult<EmpresaDTO>>(url);
+                return result ?? new PagedResult<EmpresaDTO>();
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new Exception("Error al obtener empresas paginadas desde el servidor.", ex);
+            }
+        }
+
     }
 }
